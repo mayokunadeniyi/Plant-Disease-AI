@@ -27,3 +27,13 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext {
+    materialVersion = '1.2.0-alpha05'
+    lifeCycleExtensionVersion = '2.1.1'
+    nav_version = '2.2.1'
+    glideVersion = '4.10.0'
+    preferencesVersion = '1.1.0'
+    timberVersion = '4.7.1'
+    tfliteVersion = '1.14.0'
+}

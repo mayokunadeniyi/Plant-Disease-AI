@@ -34,5 +34,27 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+
+    //Material Design
+    implementation "com.google.android.material:material:$materialVersion"
+
+    //Lifecycle Extensions
+    implementation "android.arch.lifecycle:extensions:$lifeCycleExtensionVersion"
+
+    //Navigation Components
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
+    //Glide
+    implementation "com.github.bumptech.glide:glide:$glideVersion"
+
+    //Preferences
+    implementation "androidx.preference:preference:$preferencesVersion"
+
+    //Timber
+    implementation "com.jakewharton.timber:timber:$timberVersion"
+
+    //TensorFlow Lite
+    implementation "org.tensorflow:tensorflow-lite:$tfliteVersion"
 }
