@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.navigation.fragment.findNavController
 import com.example.plantdiseaseai.R
 import com.example.plantdiseaseai.databinding.FragmentHomeBinding
 
@@ -20,6 +21,25 @@ class HomeFragment : Fragment() {
     ): View? {
         binding = FragmentHomeBinding.inflate(layoutInflater)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.cameraGrid.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_cameraFragment)
+        }
+
+        binding.galleryGrid.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_galleryFragment)
+        }
+
+        binding.faqGrid.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_faqFragment)
+        }
+
+        binding.aboutAppGrid.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_aboutAppFragment)
+        }
     }
 
 }
