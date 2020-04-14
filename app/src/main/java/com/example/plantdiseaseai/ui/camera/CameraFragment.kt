@@ -1,38 +1,26 @@
 package com.example.plantdiseaseai.ui.camera
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.Matrix
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Size
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.Surface
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
-import androidx.camera.core.CameraX
-import androidx.camera.core.Preview
-import androidx.camera.core.PreviewConfig
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import com.example.plantdiseaseai.R
+import com.bumptech.glide.Glide
 import com.example.plantdiseaseai.databinding.FragmentCameraBinding
 import com.example.plantdiseaseai.utils.CAMERA_REQUEST_CODE
 import com.example.plantdiseaseai.utils.REQUEST_CODE_PERMISSIONS
 import com.example.plantdiseaseai.utils.REQUIRED_PERMISSIONS
 import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
-import com.theartofdev.edmodo.cropper.CropImageActivity
-import com.theartofdev.edmodo.cropper.CropImageOptions
 import com.theartofdev.edmodo.cropper.CropImageView
 import timber.log.Timber
 import java.io.File
@@ -60,12 +48,17 @@ class CameraFragment : Fragment() {
 
         if (allPermissionsGranted()) {
             startCamera()
+            startCropping()
         } else {
             ActivityCompat.requestPermissions(
                 this.requireActivity(), REQUIRED_PERMISSIONS,
                 REQUEST_CODE_PERMISSIONS
             )
         }
+    }
+
+    private fun startCropping() {
+
     }
 
     private fun startCamera() {
@@ -105,20 +98,32 @@ class CameraFragment : Fragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == CAMERA_REQUEST_CODE) {
-            Timber.i("Yes it is")
-            if (resultCode == Activity.RESULT_OK && data != null) {
-                val f = File(currentPhotoPath)
-                val uri = Uri.fromFile(f)
-                CropImage.activity(uri)
-                    .start(requireContext(),this)
+        when (requestCode) {
+            CAMERA_REQUEST_CODE -> {
+                Timber.i("Yes it is")
+                if (resultCode == Activity.RESULT_OK && data != null) {
+                    val f = File(currentPhotoPath)
+                    val uri = Uri.fromFile(f)
+                    CropImage.activity(uri)
+                        .setGuidelines(CropImageView.Guidelines.ON)
+                        .start(requireContext(),this)
+                }
+            }
+            CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
+                val result = CropImage.getActivityResult(data)
+                if (resultCode == Activity.RESULT_OK){
+                    val resultUri = result.uri
+                    Glide.with(this)
+                        .load(resultUri)
+                        .into(binding.cropImageView)
+                }else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE){
+                    val error = result.error
+                    Timber.e(error)
+                }
             }
         }
 
-
     }
-
-
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
