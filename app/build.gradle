@@ -23,11 +23,16 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     aaptOptions {
         noCompress "tflite"
     }
 
-    viewBinding{
+    viewBinding {
         enabled = true
     }
 }
@@ -65,4 +70,7 @@ dependencies {
 
     //TensorFlow Lite
     implementation "org.tensorflow:tensorflow-lite:$tfliteVersion"
+
+    //Image Cropper
+    implementation "com.theartofdev.edmodo:android-image-cropper:${croppy_version}"
 }

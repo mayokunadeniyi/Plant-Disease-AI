@@ -20,7 +20,7 @@ allprojects {
     repositories {
         google()
         jcenter()
-        
+        maven { url 'https://jitpack.io' }
     }
 }
 
@@ -36,4 +36,5 @@ ext {
     preferencesVersion = '1.1.0'
     timberVersion = '4.7.1'
     tfliteVersion = '1.14.0'
+    croppy_version = '2.8.0'
 }
