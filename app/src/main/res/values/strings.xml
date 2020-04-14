@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Plant Disease AI</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="camera_text">Take picture of plant to detect disease</string>
+    <string name="upload_image_text">Select image from gallery</string>
+    <string name="faq_text">Frequently asked questions</string>
+    <string name="faqs">FAQs</string>
+    <string name="about_app">About app</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
 </resources>

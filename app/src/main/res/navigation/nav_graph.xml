@@ -9,5 +9,34 @@
         tools:layout="@layout/fragment_home"
         android:id="@+id/homeFragment"
         android:name="com.example.plantdiseaseai.ui.home.HomeFragment"
-        android:label="HomeFragment" />
+        android:label="@string/app_name" >
+        <action
+            android:id="@+id/action_homeFragment_to_cameraFragment"
+            app:destination="@id/cameraFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_galleryFragment"
+            app:destination="@id/galleryFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_aboutAppFragment"
+            app:destination="@id/aboutAppFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_faqFragment"
+            app:destination="@id/faqFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cameraFragment"
+        android:name="com.example.plantdiseaseai.ui.camera.CameraFragment"
+        android:label="@string/camera" />
+    <fragment
+        android:id="@+id/aboutAppFragment"
+        android:name="com.example.plantdiseaseai.ui.aboutapp.AboutAppFragment"
+        android:label="@string/about_app" />
+    <fragment
+        android:id="@+id/faqFragment"
+        android:name="com.example.plantdiseaseai.ui.faq.FaqFragment"
+        android:label="@string/faqs" />
+    <fragment
+        android:id="@+id/galleryFragment"
+        android:name="com.example.plantdiseaseai.ui.gallery.GalleryFragment"
+        android:label="@string/gallery" />
 </navigation>
