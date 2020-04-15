@@ -73,4 +73,10 @@ dependencies {
 
     //Image Cropper
     implementation "com.theartofdev.edmodo:android-image-cropper:${croppy_version}"
+
+    //Motion Toast
+    implementation "com.github.Spikeysanju:MotionToast:${motion_toast_version}"
+
+    //Fancy GIF Dialog
+    implementation "com.github.Shashank02051997:FancyGifDialog-Android:${dialog_version}"
 }
