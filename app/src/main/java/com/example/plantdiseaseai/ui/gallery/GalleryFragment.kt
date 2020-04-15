@@ -8,18 +8,18 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.plantdiseaseai.R
 import com.example.plantdiseaseai.databinding.FragmentGalleryBinding
 import com.example.plantdiseaseai.utils.Classifier
+import com.google.android.material.snackbar.Snackbar
 import com.shashank.sony.fancygifdialoglib.FancyGifDialog
 import com.shashank.sony.fancygifdialoglib.FancyGifDialogListener
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
+import es.dmoral.toasty.Toasty
 import timber.log.Timber
-import www.sanju.motiontoast.MotionToast
 
 /**
  * Created by Mayokun Adeniyi on 11/04/2020.
@@ -60,20 +60,12 @@ class GalleryFragment : Fragment(){
                 Glide.with(this)
                     .load(resultUri)
                     .into(binding.selectImage)
-                MotionToast.createToast(
-                    requireActivity(),
-                    "Your image is set!",
-                    MotionToast.TOAST_SUCCESS,
-                    MotionToast.GRAVITY_BOTTOM,
-                    MotionToast.SHORT_DURATION,
-                    ResourcesCompat.getFont(
-                        requireContext(),
-                        R.font.googlesans
-                    ))
+                Toasty.success(requireContext(),"Image is set!", Snackbar.LENGTH_SHORT).show()
                 analyzeImage(resultUri)
             }else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE){
                 val error = result.error
                 Timber.e(error)
+                Toasty.error(requireContext(),"Oops! an error occurred",Snackbar.LENGTH_LONG).show()
             }
         }
     }

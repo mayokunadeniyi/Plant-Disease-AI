@@ -3,8 +3,7 @@ package com.example.plantdiseaseai.ui.camera
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.ImageDecoder
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -13,10 +12,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.core.content.res.ResourcesCompat
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.plantdiseaseai.R
 import com.example.plantdiseaseai.databinding.FragmentCameraBinding
@@ -29,8 +29,8 @@ import com.shashank.sony.fancygifdialoglib.FancyGifDialog
 import com.shashank.sony.fancygifdialoglib.FancyGifDialogListener
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
+import es.dmoral.toasty.Toasty
 import timber.log.Timber
-import www.sanju.motiontoast.MotionToast
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -58,7 +58,7 @@ class CameraFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        classifier = Classifier(requireActivity().assets,modelPath,labelPath,inputSize)
+        classifier = Classifier(requireActivity().assets, modelPath, labelPath, inputSize)
         if (allPermissionsGranted()) {
             startCamera()
         } else {
@@ -106,15 +106,18 @@ class CameraFragment : Fragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        val bitmap = BitmapFactory.decodeFile(currentPhotoPath)
         when (requestCode) {
             CAMERA_REQUEST_CODE -> {
-                Timber.i("Yes it is")
-                if (resultCode == Activity.RESULT_OK && data != null) {
+                if (resultCode == Activity.RESULT_OK && bitmap != null) {
                     val f = File(currentPhotoPath)
                     val uri = Uri.fromFile(f)
                     CropImage.activity(uri)
                         .setGuidelines(CropImageView.Guidelines.ON)
                         .start(requireContext(), this)
+                } else if (bitmap == null) {
+                    Toast.makeText(requireContext(), "No image found!", Toast.LENGTH_SHORT).show()
+                    findNavController().navigate(R.id.action_cameraFragment_to_homeFragment)
                 }
             }
             CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
@@ -124,32 +127,13 @@ class CameraFragment : Fragment() {
                     Glide.with(this)
                         .load(resultUri)
                         .into(binding.cropImageView)
-                    MotionToast.createToast(
-                        requireActivity(),
-                        "Your image is set!",
-                        MotionToast.TOAST_SUCCESS,
-                        MotionToast.GRAVITY_BOTTOM,
-                        MotionToast.SHORT_DURATION,
-                        ResourcesCompat.getFont(
-                            requireContext(),
-                            R.font.googlesans
-                        )
-                    )
+                    Toasty.success(requireContext(), "Image is set!", Snackbar.LENGTH_SHORT).show()
                     analyzeImage(resultUri)
                 } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                     val error = result.error
                     Timber.e(error)
-                    MotionToast.createToast(
-                        requireActivity(),
-                        "Oops! an error occurred",
-                        MotionToast.TOAST_ERROR,
-                        MotionToast.GRAVITY_BOTTOM,
-                        MotionToast.SHORT_DURATION,
-                        ResourcesCompat.getFont(
-                            requireContext(),
-                            R.font.googlesans
-                        )
-                    )
+                    Toasty.error(requireContext(), "Oops! an error occurred", Snackbar.LENGTH_LONG)
+                        .show()
                 }
             }
         }
@@ -159,7 +143,7 @@ class CameraFragment : Fragment() {
     private fun analyzeImage(uri: Uri) {
         binding.cameraAnalyzeBtn.visibility = View.VISIBLE
         binding.cameraAnalyzeBtn.setOnClickListener {
-            val bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver,uri)
+            val bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, uri)
             val result = classifier.recognizeImage(bitmap).firstOrNull()
             FancyGifDialog.Builder(requireActivity())
                 .setTitle("Here is your result!")
