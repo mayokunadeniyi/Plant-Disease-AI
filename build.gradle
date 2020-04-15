@@ -37,6 +37,6 @@ ext {
     timberVersion = '4.7.1'
     tfliteVersion = '1.14.0'
     croppy_version = '2.8.0'
-    motion_toast_version = '1.3.1'
+    toasty_version = '1.4.2'
     dialog_version = '1.2'
 }
