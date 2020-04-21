@@ -31,7 +31,7 @@
             android:id="@+id/camera_grid"
             style="@style/GridCardViews"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@+id/guide_hor"
             app:layout_constraintEnd_toStartOf="@+id/guide_ver"
             app:layout_constraintHorizontal_bias="1.0"
@@ -56,6 +56,7 @@
                     style="@style/GridLayoutText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
                     android:text="@string/camera_text"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -78,7 +79,7 @@
             android:id="@+id/faq_grid"
             style="@style/GridCardViews"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guide_ver"
             app:layout_constraintStart_toStartOf="parent"
@@ -101,6 +102,7 @@
                     style="@style/GridLayoutText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
                     android:text="@string/faq_text"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -111,13 +113,13 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/gallery_grid"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             style="@style/GridCardViews"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@+id/guide_hor"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/guide_ver"
-            app:layout_constraintTop_toBottomOf="@+id/imageView3" >
+            app:layout_constraintStart_toEndOf="@+id/guide_ver"
+            app:layout_constraintTop_toBottomOf="@+id/imageView3">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -136,6 +138,9 @@
                     style="@style/GridLayoutText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
                     android:text="@string/upload_image_text"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -151,7 +156,7 @@
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/guide_ver"
+            app:layout_constraintStart_toEndOf="@id/guide_ver"
             app:layout_constraintTop_toBottomOf="@+id/guide_hor">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -171,6 +176,7 @@
                     style="@style/GridLayoutText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
                     android:text="@string/about_app"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
