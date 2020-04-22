@@ -11,4 +11,8 @@
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
     <string name="analyze_image">Analyze Image</string>
+    <string name="camera_how_quest">How to use my camera for analysis</string>
+    <string name="camera_how_ans">Back on the home screen, click on the very first tab to the left with the camera icon. </string>
+    <string name="gallery_how_quest">How to upload an image for analysis</string>
+    <string name="gallery_how_ans">Back on the home screen, click on the second tab to the right with the upload (arrow) icon. </string>
 </resources>
