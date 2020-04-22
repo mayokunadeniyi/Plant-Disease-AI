@@ -1,6 +1,8 @@
 package com.example.plantdiseaseai.ui.camera
 
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
@@ -20,10 +22,7 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.plantdiseaseai.R
 import com.example.plantdiseaseai.databinding.FragmentCameraBinding
-import com.example.plantdiseaseai.utils.CAMERA_REQUEST_CODE
-import com.example.plantdiseaseai.utils.Classifier
-import com.example.plantdiseaseai.utils.REQUEST_CODE_PERMISSIONS
-import com.example.plantdiseaseai.utils.REQUIRED_PERMISSIONS
+import com.example.plantdiseaseai.utils.*
 import com.google.android.material.snackbar.Snackbar
 import com.shashank.sony.fancygifdialoglib.FancyGifDialog
 import com.shashank.sony.fancygifdialoglib.FancyGifDialogListener
@@ -53,6 +52,7 @@ class CameraFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentCameraBinding.inflate(inflater)
+        setUpToolbar(showActionBar = true)
         return binding.root
     }
 
@@ -62,11 +62,31 @@ class CameraFragment : Fragment() {
         if (allPermissionsGranted()) {
             startCamera()
         } else {
-            ActivityCompat.requestPermissions(
-                this.requireActivity(), REQUIRED_PERMISSIONS,
-                REQUEST_CODE_PERMISSIONS
-            )
+            requestPermissions(REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
         }
+    }
+
+
+    private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
+        ContextCompat.checkSelfPermission(requireContext(), it) == PackageManager.PERMISSION_GRANTED
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+            if (allPermissionsGranted()) {
+                startCamera()
+            } else {
+                showThatLayout()
+            }
+        }
+    }
+
+    private fun showThatLayout() {
+
     }
 
     private fun startCamera() {
@@ -155,29 +175,6 @@ class CameraFragment : Fragment() {
                 .OnPositiveClicked { FancyGifDialogListener { startCamera() } }
                 .build()
         }
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        if (requestCode == REQUEST_CODE_PERMISSIONS) {
-            if (allPermissionsGranted()) {
-                startCamera()
-            } else {
-                Snackbar.make(
-                    binding.root,
-                    "Permissions not granted by the user.",
-                    Snackbar.LENGTH_SHORT
-                ).show()
-                this.activity?.finish()
-            }
-        }
-    }
-
-    private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
-        ContextCompat.checkSelfPermission(requireContext(), it) == PackageManager.PERMISSION_GRANTED
     }
 
 }

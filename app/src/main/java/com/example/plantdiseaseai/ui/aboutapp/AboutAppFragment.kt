@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.plantdiseaseai.databinding.FragmentAboutAppBinding
+import com.example.plantdiseaseai.utils.setUpToolbar
 
 /**
  * Created by Mayokun Adeniyi on 11/04/2020.
@@ -19,6 +20,7 @@ class AboutAppFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentAboutAppBinding.inflate(layoutInflater)
+        setUpToolbar(showActionBar = true)
         return binding.root
     }
 }

@@ -9,10 +9,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.example.plantdiseaseai.R
 import com.example.plantdiseaseai.databinding.FragmentGalleryBinding
+import com.example.plantdiseaseai.ui.MainActivity
 import com.example.plantdiseaseai.utils.Classifier
+import com.example.plantdiseaseai.utils.setUpToolbar
+import com.example.plantdiseaseai.utils.showIf
 import com.google.android.material.snackbar.Snackbar
 import com.shashank.sony.fancygifdialoglib.FancyGifDialog
 import com.shashank.sony.fancygifdialoglib.FancyGifDialogListener
@@ -39,6 +44,7 @@ class GalleryFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentGalleryBinding.inflate(layoutInflater)
+        setUpToolbar(showActionBar = true)
         return binding.root
     }
 
@@ -72,7 +78,9 @@ class GalleryFragment : Fragment(){
 
     private fun analyzeImage(uri: Uri) {
         binding.galleryAnalyzeBtn.visibility = View.VISIBLE
+        val prog = binding.progressBar
         binding.galleryAnalyzeBtn.setOnClickListener {
+            prog.visibility = View.VISIBLE
             val bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver,uri)
             val result = classifier.recognizeImage(bitmap).firstOrNull()
             FancyGifDialog.Builder(requireActivity())
@@ -83,7 +91,9 @@ class GalleryFragment : Fragment(){
                 .setPositiveBtnText("Retry")
                 .isCancellable(true)
                 .OnPositiveClicked { FancyGifDialogListener {  } }
-                .build()
+                .build().also {
+                    prog.visibility = View.GONE
+                }
         }
     }
 }

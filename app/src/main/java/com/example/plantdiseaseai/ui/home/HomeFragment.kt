@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import com.example.plantdiseaseai.R
 import com.example.plantdiseaseai.databinding.FragmentHomeBinding
+import com.example.plantdiseaseai.utils.setUpToolbar
 
 /**
  * A simple [Fragment] subclass.
@@ -20,6 +21,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(layoutInflater)
+        setUpToolbar(showActionBar = true, showBackButton = false)
         return binding.root
     }
 
