@@ -28,6 +28,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
     aaptOptions {
         noCompress "tflite"
     }
@@ -79,4 +83,7 @@ dependencies {
 
     //Fancy GIF Dialog
     implementation "com.github.Shashank02051997:FancyGifDialog-Android:${dialog_version}"
+
+    //OnBoarding View
+    implementation "com.github.mahmoud-assaf:OnBoardingViewLib:${onboarding_view_version}"
 }
