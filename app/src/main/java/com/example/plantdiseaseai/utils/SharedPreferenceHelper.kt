@@ -21,12 +21,13 @@ class SharedPreferenceHelper {
 
         fun getInstance(context: Context): SharedPreferenceHelper{
             synchronized(this){
-                val _instance = instance
+                var _instance = instance
                 if (_instance == null){
+                    _instance = SharedPreferenceHelper()
                     prefs = PreferenceManager.getDefaultSharedPreferences(context)
                     instance = _instance
                 }
-                return SharedPreferenceHelper()
+                return _instance
             }
         }
     }
