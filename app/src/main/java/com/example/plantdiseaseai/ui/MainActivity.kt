@@ -1,26 +1,78 @@
 package com.example.plantdiseaseai.ui
 
-import androidx.appcompat.app.AppCompatActivity
+import android.net.Uri
 import android.os.Bundle
-import androidx.navigation.findNavController
-import androidx.navigation.ui.setupActionBarWithNavController
-import com.example.plantdiseaseai.R
-import com.example.plantdiseaseai.databinding.ActivityMainBinding
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.runtime.*
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.plantdiseaseai.ui.screens.*
+import com.example.plantdiseaseai.ui.theme.PlantDiseaseAITheme
+import com.example.plantdiseaseai.utils.Classifier
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+class MainActivity : ComponentActivity() {
+    private lateinit var classifier: Classifier
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        setupNavigation()
-    }
+        
+        classifier = Classifier(assets, "plant_disease_model.tflite", "plant_labels.txt", 299)
 
-    private fun setupNavigation() {
-        val navController = findNavController(R.id.mainNavFragment)
-        setupActionBarWithNavController(navController)
-    }
+        setContent {
+            PlantDiseaseAITheme {
+                val navController = rememberNavController()
+                var capturedImageUri by remember { mutableStateOf<Uri?>(null) }
 
-    override fun onSupportNavigateUp() = findNavController(R.id.mainNavFragment).navigateUp()
+                NavHost(navController = navController, startDestination = "home") {
+                    composable("home") {
+                        HomeScreen(
+                            onNavigate = { route ->
+                                navController.navigate(route)
+                            }
+                        )
+                    }
+                    composable("camera") {
+                        CameraScreen(
+                            onImageCaptured = { uri ->
+                                capturedImageUri = uri
+                                navController.navigate("result")
+                            },
+                            onBack = { navController.popBackStack() }
+                        )
+                    }
+                    composable("gallery") {
+                        GalleryScreen(
+                            onImageSelected = { uri ->
+                                capturedImageUri = uri
+                                navController.navigate("result")
+                            },
+                            onBack = { navController.popBackStack() }
+                        )
+                    }
+                    composable("result") {
+                        capturedImageUri?.let { uri ->
+                            ResultScreen(
+                                imageUri = uri,
+                                classifier = classifier,
+                                onBack = { navController.navigate("home") {
+                                    popUpTo("home") { inclusive = true }
+                                }},
+                                onRetry = { navController.navigate("home") {
+                                    popUpTo("home") { inclusive = true }
+                                }}
+                            )
+                        }
+                    }
+                    composable("faq") {
+                        FaqScreen(onBack = { navController.popBackStack() })
+                    }
+                    composable("about") {
+                        AboutScreen(onBack = { navController.popBackStack() })
+                    }
+                }
+            }
+        }
+    }
 }
