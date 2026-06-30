@@ -4,7 +4,7 @@ The project is broken down into multiple steps:
 
 * Building and creating a machine learning model using TensorFlow with Keras
 * Deploying the model to an Android application using TFLite
-* 
+  
 ## Machine Learning model using Tensorflow with Keras
 
 We designed algorithms and models to recognize species and diseases in the crop leaves by using CNN (Convolutional Neural Network).
