@@ -1,4 +1,4 @@
-# Plant Disease detector and solution system
+# Plant Disease detector
 
 The project is broken down into multiple steps:
 
